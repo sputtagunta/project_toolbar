@@ -48,6 +48,7 @@ function parse_email_by_id(id) {
 
         metadata["id"] = id;
         metadata["subject"] = get_email_data(data, "subject");
+        metadata["action"] = "opened";
         metadata["date"] = get_email_data(data, "date");
         metadata["importance"] = get_email_data(data, "importance");
         metadata["email_body"] = data;
