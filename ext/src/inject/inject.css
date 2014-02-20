@@ -1,3 +1,51 @@
 /**
  * Place your custom CSS styles here.
  **/
+#project_toolbar_pane {
+	position:relative;
+	margin-top: -44px;
+	cursor: pointer;
+	margin-left:250px;
+
+}
+
+.project_toolbar_menu_item {
+	position:relative;
+	float:left;
+	padding:10px;
+	border:1px solid #000000;
+}
+
+#sent_emails_pane_toolbar {
+
+}
+
+#opened_emails_pane_toolbar{
+
+}
+
+.toolbar_email_view {
+	width:600px;
+	height:400px;
+	position:fixed;
+	top:0px;
+	left:auto;
+	right:auto;
+	z-index: 1000000;
+	display:none;
+	overflow:scroll;
+	background-color:#FFFFFF;
+	margin-right: auto;
+	margin-left:auto;
+	margin-top:200px;
+	margin-bottom:200px;
+	border: 5px solid #000000;
+	padding: 30px;
+	text-align: center;
+}
+
+#email_item {
+	padding: 5px;
+	border:1px solid #FFFFFF;
+	text-align: left;
+}
