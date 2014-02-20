@@ -7,7 +7,7 @@ chrome.extension.sendMessage({}, function(response) {
             $jQ = jQuery.noConflict();
             inject_event_handlers();
             inject_dom_elements();
-            parse_inbox_table_body();
+            //parse_inbox_table_body();
         }
     }, 10);
 });
@@ -18,6 +18,7 @@ function inject_dom_elements() {
     $jQ('#sortFilterContainer').append("<div id='project_toolbar_pane'></div>");
     $jQ('#sortFilterContainer').append("<div id='sent_emails_pane_toolbar' class='toolbar_email_view'></div>");
     $jQ('#sortFilterContainer').append("<div id='opened_emails_pane_toolbar' class='toolbar_email_view'></div>");
+    $jQ('#sortFilterContainer').append("<div id='unopened_emails_pane_toolbar' class='toolbar_email_view'></div>");
 
     toolbar_menu = {};
     toolbar_menu["sent"] = {'doc' : 'sent', 'payload' : { 'from':document.title.split(" - ")[1]} };
@@ -49,16 +50,28 @@ function process_data(data) {
 
     $jQ('#sent_emails_pane_toolbar').html(populate_div(sent_emails, 'sent'));
     $jQ('#opened_emails_pane_toolbar').html(populate_div(opened_emails, 'opened'));
+    $jQ('#unopened_emails_pane_toolbar').html(populate_unopened_div(sent_emails, 'unopened', ids));
 
     $jQ('#project_toolbar_pane').append("<div id='sent_emails_project_toolbar' class='project_toolbar_menu_item'>Sent Emails: "+ sent_emails.length +"</div>");
     $jQ('#project_toolbar_pane').append("<div id='opened_emails_project_toolbar' class='project_toolbar_menu_item'>Opened Emails: "+ opened_emails_count +"</div>");
+    $jQ('#project_toolbar_pane').append("<div id='unopened_emails_project_toolbar' class='project_toolbar_menu_item'>Unopened Emails: "+ (sent_emails.length - opened_emails_count).toString() +"</div>");
 
     $jQ("#opened_emails_project_toolbar").click( function() {
         $jQ("#opened_emails_pane_toolbar").toggle();
+        $jQ("#sent_emails_pane_toolbar").hide();
+        $jQ("#unopened_emails_pane_toolbar").hide();
     });
 
     $jQ("#sent_emails_project_toolbar").click( function() {
         $jQ("#sent_emails_pane_toolbar").toggle();
+        $jQ("#opened_emails_pane_toolbar").hide();
+        $jQ("#unopened_emails_pane_toolbar").hide();
+    });
+
+    $jQ("#unopened_emails_project_toolbar").click( function() {
+        $jQ("#unopened_emails_pane_toolbar").toggle();
+        $jQ("#sent_emails_pane_toolbar").hide();
+        $jQ("#opened_emails_pane_toolbar").hide();
     });
 
     $jQ("#hide_div_sent").click(function() {
@@ -68,7 +81,40 @@ function process_data(data) {
     $jQ("#hide_div_opened").click(function() {
         $jQ("#opened_emails_pane_toolbar").toggle();
     });
+
+    $jQ("#hide_div_unopened").click(function() {
+        $jQ("#unopened_emails_pane_toolbar").toggle();
+    });
 }
+
+function populate_unopened_div(emails, email_type, ids) {
+    var template = "";
+    template += "<div id='email_item'>\n";
+    template += "<table>\n";
+    template += "<tr><td>Date</td><td>{date_here}</td></tr>\n";
+    template += "<tr><td>From</td><td>{from_addr_here}</td></tr>\n";
+    template += "<tr><td>To</td><td>{to_addr_here}</td></tr>\n";
+    template += "<tr><td>Cc</td><td>{cc_addr_here}</td></tr>\n";
+    template += "<tr><td>Bcc</td><td>{bcc_addr_here}</td></tr>\n";
+    template += "<tr><td>Subject</td><td>{subject_here}</td></tr>\n";
+    template += "</div>";
+
+    html = "";
+    html += "<h1>"+email_type+" emails</h1>";
+    html += "<br><hr /><a id='hide_div_"+email_type+"'>Hide Toolbar</a>";
+
+    for (var i = 0; i < emails.length; i++) {
+        if(ids.indexOf(emails[i]["id"]) != -1 ) {
+            continue;
+        }
+
+        html += merge_template(template, emails[i]);
+        ids.push(emails[i]["id"]);
+    }
+    //console.log(html);
+    return html;
+}
+
 
 function populate_div(emails, email_type) {
     var template = "";
@@ -86,9 +132,7 @@ function populate_div(emails, email_type) {
     html += "<h1>"+email_type+" emails</h1>";
     html += "<br><hr /><a id='hide_div_"+email_type+"'>Hide Toolbar</a>";
 
-    ids = [];
-
-    
+    ids = [];    
 
     for (var i = 0; i < emails.length; i++) {
         diff = Math.abs(emails[i]["server_timestamp"] - emails[i]["device_timestamp"]);
@@ -101,8 +145,6 @@ function populate_div(emails, email_type) {
     }
 
     return html;
-
-
 }
 
 function merge_template(template, email) {
@@ -118,7 +160,7 @@ function merge_template(template, email) {
     final_temp = [];
     for(var i = 0; i < lines.length; i++) {
         if(lines[i].search("undefined") == -1) {
-            console.log("no undefined: " + lines[i]);
+            //console.log("no undefined: " + lines[i]);
             final_temp.push(lines[i]);
         }
     }
