@@ -1,9 +1,9 @@
 {
-  "name": "CHANGE THIS : Extension boilerplate",
+  "name": "Project Toolbar",
   "version": "0.0.1",
   "manifest_version": 2,
-  "description": "This extension was created with the awesome extensionizr.com",
-  "homepage_url": "http://extensionizr.com",
+  "description": "Created by Sravan",
+  "homepage_url": "https://sravan.us",
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
@@ -28,8 +28,10 @@
         "https://*.live.com/*"
       ],
       "js": [
-        "src/inject/inject.js",
-        "js/jquery/jquery.min.js"
+        "js/jquery/jquery.min.js",
+        "js/keyboard/keyboard.js",
+        "js/sha1/sha1.js",
+        "src/inject/inject.js"
       ]
     }
   ]
