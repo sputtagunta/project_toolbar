@@ -31,7 +31,7 @@ function inject_dom_elements() {
 }
 
 function process_data(data) {
-    data = JSON.parse(data);
+    console.log(data);
     sent_emails = data["sent"];
     opened_emails = data["opened"];
 
