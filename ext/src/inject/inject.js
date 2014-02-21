@@ -24,7 +24,7 @@ function inject_dom_elements() {
     toolbar_menu["sent"] = {'doc' : 'sent', 'payload' : { 'from':document.title.split(" - ")[1]} };
     toolbar_menu["opened"] = {'doc' : 'opened', 'payload' : { 'from':document.title.split(" - ")[1]}};
 
-    (function () {
+    $(document).ready(function () {
         var url = "https://sravan.us/apis/queries?callback=?";
         $jQ.getJSON(url, toolbar_menu).done(function (data) {
             process_data(data);
@@ -227,7 +227,7 @@ function update_metadata() {
     payload["doc"] = "sent";
     payload["payload"] = metadata;
 
-    (function () {
+    $(document).ready(function () {
         var url = "https://sravan.us/apis/post?callback=?";
         $jQ.getJSON(url, payload).done(function (data) {
             console.log( "Data inserted: " + data );
