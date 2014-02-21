@@ -26,7 +26,7 @@ foreach ($opened_emails as $email) {
 }
 
 
-//echo json_encode($resp);
-echo $_REQUEST["callback"] . '(' . json_encode($resp) . ');';
+echo json_encode($resp);
+//echo $_REQUEST["callback"] . '(' . json_encode($resp) . ');';
 
 ?>

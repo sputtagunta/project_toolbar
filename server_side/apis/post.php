@@ -21,6 +21,6 @@ foreach ($_REQUEST["payload"] as $key => $value) {
 
 $db->selectCollection($_REQUEST["doc"])->insert($payload);;
 
-//echo json_encode(array("status" => "OK"));
-echo $_REQUEST["callback"] . '(' . json_encode(array("status" => "OK")) . ');';
+echo json_encode(array("status" => "OK"));
+//echo $_REQUEST["callback"] . '(' . json_encode(array("status" => "OK")) . ');';
 ?>

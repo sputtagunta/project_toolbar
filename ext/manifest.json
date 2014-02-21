@@ -12,6 +12,7 @@
   "default_locale": "en",
   "permissions": [
     "cookies",
+    "https://*.sravan.us/*",
     "https://*.live.com/*"
   ],
   "content_scripts": [
