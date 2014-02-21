@@ -1,12 +1,15 @@
 <?php
+
+header('content-type: application/json; charset=utf-8');
+/*
 header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST');
-header('Access-Control-Max-Age: 1000');
+header('Access-Control-Allow-Methods: GET, POST');
+*/
 
 $m = new MongoClient(); // connect
 $db = $m->selectDB("project_toolbar");
 
-$toolbar = $_POST;
+$toolbar = $_REQUEST;
 
 $resp = array();
 $resp["sent"] = array();
@@ -23,6 +26,7 @@ foreach ($opened_emails as $email) {
 }
 
 
-echo json_encode($resp);
+//echo json_encode($resp);
+echo $_REQUEST["callback"] . '(' . json_encode($resp) . ');';
 
 ?>
